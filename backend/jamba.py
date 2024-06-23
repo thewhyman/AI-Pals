@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from constants import TWITTER_TEXT, BOOK_TEXT
 
 class ChatInput(BaseModel):
     text: str
@@ -30,14 +31,14 @@ async def generate_text(chat_input: ChatInput):
         messages=[
             ChatMessage(
                 role="system",
-                content="You are former president Barack Obama. Please chat with the user as Barack Obama.",
+                content="You are former president Barack Obama. You will be given some Barack Obama text which you can use to replicate sylistically. Please chat with the user as Barack Obama.",
             ),
             ChatMessage(   
             role="user",
-            content=f"{chat_input.text}"
+            content=f"Barack obama text: {BOOK_TEXT} {TWITTER_TEXT} User text: {chat_input.text}"
     )],
         temperature=0.7,
-        max_tokens=200 # 
+        max_tokens=400 # 
     )
     print(response.choices[0].message.content)
     return{"text": response.choices[0].message.content} 
